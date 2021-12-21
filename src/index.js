@@ -1,94 +1,44 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 const root = document.getElementById("root");
 
 function App() {
-  const [developer, setDeveloper] = React.useState({
-    language: "python",
-    years: "",
-    isEmployed: false,
-    name: "",
-    title: "",
-  });
+  const [mousePosition, setMousePosition] = React.useState({ x: 0, y: 0 });
 
-  //effect callback, conditioanlly run this function only when title is changed so
-  //it only runs once when the app rerenders on state change
-  React.useEffect(() => {
-    //affect function
-    document.title = developer.title;
-    console.log("runs effect");
-  }, [developer.title]);
+  useEffect(() => {
+    window.addEventListener("mousemove", handleMouseMove);
+    console.log("mouse moved");
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      console.log("remove mouse even listener");
+    };
+  }, []);
 
-  const handleChanges = (e) => {
-    setDeveloper({
-      ...developer,
-      language: "javascript",
-    });
-  };
-
-  const handleInput = (e) => {
-    console.log("e--->", e.target.name, ": ", e.target.value);
-    setDeveloper({
-      ...developer,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const employ = (e) => {
-    setDeveloper((prev) => {
-      return {
-        ...prev,
-        isEmployed: !prev.isEmployed,
-      };
-    });
-  };
+  function handleMouseMove(e) {
+    setMousePosition({ x: e.pageX, y: e.pageY });
+  }
 
   return (
     <div>
       {console.log("component did mount")}
-      <h3>test</h3>
-      <button onClick={handleChanges}>Change Language</button>
-      <label htmlFor="years">
-        Years:{" "}
-        <input
-          type="number"
-          name="years"
-          onChange={handleInput}
-          value={developer.years}
-        />
-      </label>
-      <label htmlFor="name">
-        Name:
-        <input
-          type="text"
-          name="name"
-          id="name"
-          onChange={handleInput}
-          value={developer.name}
-        />
-      </label>
-
-      <label htmlFor="title">
-        Title:
-        <input
-          type="text"
-          name="title"
-          id="title"
-          onChange={handleInput}
-          value={developer.title}
-        />
-      </label>
-
-      <button onClick={employ}>EMPLOYED</button>
-      <div className="one">
-        <p>Change language: {developer.language}</p>
-        <p>Change years: {developer.years}</p>
-        <p>Name input: {developer.name} </p>
-        <p>employment: {developer.isEmployed ? "employed" : "not Employed"}</p>
-      </div>
+      <p>
+        X: {mousePosition.x}, Y: {mousePosition.y}
+      </p>
     </div>
   );
 }
 
 ReactDOM.render(<App />, root);
+
+function Test() {
+  console.log("component did mount TEST");
+
+  return (
+    <div className="one">
+      <h1>test</h1>
+    </div>
+  );
+}
+
+setTimeout(() => ReactDOM.render(<Test />, root), 2000);
