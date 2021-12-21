@@ -4,16 +4,17 @@ import axios from "axios";
 const baseUrl = `https://api.github.com/users/`;
 
 function App() {
-  const [user, setUser] = useState({ users: "rigo0523", errors: "" });
+  const [user, setUser] = useState({ users: ["rigo0523"], errors: "" });
 
   function getUsers() {
+    setUser({ ...user });
     axios
       .get(`${baseUrl}${user.users}`)
       .then((response) => {
         console.log(response.data);
         setUser({
           ...user,
-          users: response.data,
+          users: [response.data],
           errors: "",
         });
       })
@@ -31,7 +32,7 @@ function App() {
     console.log(e.target.value);
     setUser({
       ...user,
-      users: e.target.value,
+      users: [e.target.value],
     });
   }
 
@@ -48,17 +49,17 @@ function App() {
       <button onClick={getUsers}>Search user</button>
       <button>Clearn input</button>
       {user.errors && <p style={{ color: "red" }}>Error: {user.errors}</p>}
-      {!user.errors && user ? (
-        <div>
-          <h1>username: {user.users.login}</h1>
-          <img
-            src={user.users.avatar_url}
-            alt="git"
-            style={{ height: "100px" }}
-          />
-        </div>
+
+      {user.users ? (
+        !user.errors &&
+        user.users.map((item) => (
+          <div key={item.id}>
+            <h1>{item.login}</h1>
+            <img src={item.avatar_url} alt="git" style={{ height: "100px" }} />
+          </div>
+        ))
       ) : (
-        <h1>Error Loading...</h1>
+        <h1>Loading.....</h1>
       )}
     </div>
   );
