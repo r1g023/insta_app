@@ -49,8 +49,9 @@ function App() {
       <button onClick={getUsers}>Search user</button>
       <button>Clearn input</button>
       {user.errors && <p style={{ color: "red" }}>Error: {user.errors}</p>}
-
+      
       {user.users ? (
+//         if no errors the nmap over the users array
         !user.errors &&
         user.users.map((item) => (
           <div key={item.id}>
