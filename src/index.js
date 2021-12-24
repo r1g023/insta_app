@@ -19,7 +19,7 @@ function App() {
         });
       })
       .catch((err) => {
-        console.log("error cant fetch user ", err);
+        console.log("error cant fetch users ", err);
         setUser({
           ...user,
           errors: `404 error, can't find user of ${user.users}`,
@@ -49,9 +49,9 @@ function App() {
       <button onClick={getUsers}>Search user</button>
       <button>Clearn input</button>
       {user.errors && <p style={{ color: "red" }}>Error: {user.errors}</p>}
-      
+
       {user.users ? (
-//         if no errors the nmap over the users array
+        //         if no errors the nmap over the users array
         !user.errors &&
         user.users.map((item) => (
           <div key={item.id}>
