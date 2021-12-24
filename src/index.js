@@ -19,7 +19,7 @@ function App() {
         });
       })
       .catch((err) => {
-        console.log("error cant fetch user", err);
+        console.log("error cant fetch user ", err);
         setUser({
           ...user,
           errors: `404 error, can't find user of ${user.users}`,
