@@ -37,7 +37,7 @@ function App() {
   }
 
   useEffect(() => {
-    console.log("use effect hook");
+    console.log("use effect hook ");
     getUsers();
   }, []);
 
