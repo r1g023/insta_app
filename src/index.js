@@ -4,27 +4,10 @@ import axios from "axios";
 const baseUrl = `https://api.github.com/users/`;
 
 function App() {
-  const [user, setUser] = useState({ users: "rigo0523", errors: "" });
+  const [username, setUsername] = useState("rigo0523");
+  const [user, setUser] = useState(null);
+  console.log(user);
 
-  // function getUsers() {
-  //   axios
-  //     .get(`${baseUrl}${user.users}`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       setUser({
-  //         ...user,
-  //         users: response.data,
-  //         errors: "",
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log("error cant fetch user", err);
-  //       setUser({
-  //         ...user,
-  //         errors: `404 error, can't find user of ${user.users}`,
-  //       });
-  //     });
-  // }
 
   function handleInput(e) {
     console.log(e.target.value);
@@ -32,16 +15,16 @@ function App() {
       ...user,
       users: e.target.value,
     });
+
+  function getUser() {
+
     axios
-      .get(`${baseUrl}${user.users}`)
+      .get(`${baseUrl}${username}`)
       .then((response) => {
         console.log(response.data);
-        setUser({
-          ...user,
-          users: response.data,
-          errors: "",
-        });
+        setUser(response.data);
       })
+
       .catch((err) => {
         console.log("error cant fetch user", err);
         setUser({
@@ -51,14 +34,19 @@ function App() {
       });
   }
 
-  // useEffect(() => {
-  //   console.log("use effect hook");
-  //   getUsers();
-  // }, []);
 
-  console.log("component did mount");
+      .catch((err) => console.log(err));
+  }
+
+  useEffect(() => {
+    console.log("use effect render");
+    getUser();
+  }, []);
+
+
   return (
     <div>
+
       <input type="text" placeholder="find user" onChange={handleInput} />
 
       <button>Search user</button>
@@ -69,16 +57,17 @@ function App() {
         </p>
       )}
       {!user.errors && user ? (
+
+      {console.log("component did mount")}
+      <h1>TEST</h1>
+      {user ? (
+
         <div>
-          <h1>username: {user.users.login}</h1>
-          <img
-            src={user.users.avatar_url}
-            alt="git"
-            style={{ height: "100px" }}
-          />
+          <h1>Name: {user.login}</h1>
+          <img src={user.avatar_url} alt="userphoto" />
         </div>
       ) : (
-        <h1>Error Loading...</h1>
+        <h1>Loading ......</h1>
       )}
     </div>
   );
