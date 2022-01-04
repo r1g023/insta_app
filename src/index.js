@@ -5,37 +5,10 @@ const baseUrl = `https://api.github.com/users/`;
 
 function App() {
   const [username, setUsername] = useState({
-    users: [],
+    users: null,
     githubname: "",
-    error: "",
+    errors: "",
   });
-
-  console.log("username--->", username.users);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setUsername({
-      ...username,
-    });
-
-    axios
-      .get(`${baseUrl}${username.githubname}`)
-      .then((response) => {
-        console.log("responsedata----->", response.data);
-        setUsername({
-          ...username,
-          users: response.data,
-          errors: "",
-        });
-      })
-      .catch((err) => {
-        console.log("error axios", err);
-        setUsername({
-          ...username,
-          errors: `user of ${username.githubname} not found`,
-        });
-      });
-  };
 
   function handleChanges(e) {
     console.log(e.target.name, ":", e.target.value);
@@ -45,24 +18,50 @@ function App() {
     });
   }
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    setUsername({
+      ...username,
+    });
+    axios
+      .get(`${baseUrl}${username.githubname}`)
+      .then((response) => {
+        console.log("response data---->", response.data);
+        setUsername({
+          ...username,
+          users: response.data,
+          errors: "",
+        });
+      })
+      .catch((err) => {
+        console.log("error fetching data");
+        setUsername({
+          ...username,
+          errors: `user ${username.githubname} is not in the database`,
+        });
+      });
+  }
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="githubname"></label>
-        <input
-          type="text"
-          placeholder="find users.."
-          id="githubname"
-          name="githubname"
-          onChange={handleChanges}
-          value={username.githubname}
-        />
-        <button>Search User</button>
+        <input type="text" name="githubname" onChange={handleChanges} />
+        <button>Find user</button>
       </form>
-      {username.errors && <p className="error">Error: {username.errors}</p>}
-
-      <div className="one">
-        <p>tests</p>
+      githubname: {username.githubname}
+      <div className="card">
+        {username.users && !username.errors ? (
+          <div className="cardtwo">
+            <p>githuname: {username.users.login}</p>
+            <img
+              src={username.users.avatar_url}
+              alt="gituser"
+              style={{ width: "100px" }}
+            />
+          </div>
+        ) : (
+          <h2>{username.errors && <p>{username.errors}</p>}</h2>
+        )}
       </div>
     </div>
   );
