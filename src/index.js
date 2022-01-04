@@ -4,86 +4,69 @@ import axios from "axios";
 const baseUrl = `https://api.github.com/users/`;
 
 function App() {
-  const [username, setUsername] = useState("rigo0523");
-  const [user, setUser] = useState(null);
-  console.log(user);
+  const [username, setUsername] = useState({
+    users: [],
+    githubname: "",
+    error: "",
+  });
 
+  console.log("username--->", username.users);
 
-  function handleInput(e) {
-    console.log(e.target.value);
-    setUser({
-      ...user,
-      users: e.target.value,
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setUsername({
+      ...username,
     });
 
-  function getUser() {
-
     axios
-      .get(`${baseUrl}${username}`)
+      .get(`${baseUrl}${username.githubname}`)
       .then((response) => {
-        console.log(response.data);
-        setUser(response.data);
+        console.log("responsedata----->", response.data);
+        setUsername({
+          ...username,
+          users: response.data,
+          errors: "",
+        });
       })
-
       .catch((err) => {
-        console.log("error cant fetch user", err);
-        setUser({
-          ...user,
-          errors: `404 error, can't find user of ${user.users}`,
+        console.log("error axios", err);
+        setUsername({
+          ...username,
+          errors: `user of ${username.githubname} not found`,
         });
       });
+  };
+
+  function handleChanges(e) {
+    console.log(e.target.name, ":", e.target.value);
+    setUsername({
+      ...username,
+      [e.target.name]: e.target.value,
+    });
   }
-
-
-      .catch((err) => console.log(err));
-  }
-
-  useEffect(() => {
-    console.log("use effect render");
-    getUser();
-  }, []);
-
 
   return (
     <div>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="githubname"></label>
+        <input
+          type="text"
+          placeholder="find user"
+          id="githubname"
+          name="githubname"
+          onChange={handleChanges}
+          value={username.githubname}
+        />
+        <button>Search User</button>
+      </form>
+      {username.errors && <p className="error">Error: {username.errors}</p>}
 
-      <input type="text" placeholder="find user" onChange={handleInput} />
-
-      <button>Search user</button>
-      <button>Clearn input</button>
-      {user.errors && (
-        <p style={{ color: "white", background: "red" }}>
-          Error: {user.errors}
-        </p>
-      )}
-      {!user.errors && user ? (
-
-      {console.log("component did mount")}
-      <h1>TEST</h1>
-      {user ? (
-
-        <div>
-          <h1>Name: {user.login}</h1>
-          <img src={user.avatar_url} alt="userphoto" />
-        </div>
-      ) : (
-        <h1>Loading ......</h1>
-      )}
+      <div className="one">
+        <p>tests</p>
+      </div>
     </div>
   );
 }
 
 const root = document.getElementById("root");
 ReactDOM.render(<App />, root);
-
-// function Test() {
-//   console.log("component did mount TEST");
-
-//   return (
-//     <div className="one">
-//       <h1>test</h1>
-//     </div>
-//   );
-// }
-
-// setTimeout(() => ReactDOM.render(<Test />, root), 2000);
