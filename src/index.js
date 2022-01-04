@@ -51,7 +51,7 @@ function App() {
         <label htmlFor="githubname"></label>
         <input
           type="text"
-          placeholder="find user"
+          placeholder="find users"
           id="githubname"
           name="githubname"
           onChange={handleChanges}
