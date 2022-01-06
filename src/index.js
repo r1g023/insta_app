@@ -10,6 +10,16 @@ function App() {
     errors: "",
   });
 
+  const [name, setName] = useState("mario");
+  const [number, setNumber] = useState(0);
+  const [secondNumber, setSecondNumber] = useState(1);
+
+  useEffect(() => {
+    console.log("useeffect----->");
+    setNumber(number + 5);
+    console.log("name--useEffect->", name);
+  }, [name, secondNumber]);
+
   function handleChanges(e) {
     console.log(e.target.name, ":", e.target.value);
     setUsername({
@@ -19,10 +29,8 @@ function App() {
   }
 
   function handleSubmit(e) {
-    e.preventDefault();
-    setUsername({
-      ...username,
-    });
+    console.log("handle submit button--->");
+
     axios
       .get(`${baseUrl}${username.githubname}`)
       .then((response) => {
@@ -37,17 +45,22 @@ function App() {
         console.log("error fetching data");
         setUsername({
           ...username,
-          errors: `user ${username.githubname} is not in the database`,
+
+          errors: `${username.githubname}user is not in the database`,
         });
       });
   }
-
+  console.log("component did mount");
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="githubname" onChange={handleChanges} />
-        <button>Find user</button>
-      </form>
+      {console.log("component did render")}
+      <input
+        type="text"
+        name="githubname"
+        onChange={handleChanges}
+        value={username.githubname}
+      />
+      <button onClick={handleSubmit}>Find user</button>
       githubname: {username.githubname}
       <div className="card">
         {username.users && !username.errors ? (
@@ -63,6 +76,15 @@ function App() {
           <h2>{username.errors && <p>{username.errors}</p>}</h2>
         )}
       </div>
+      <button onClick={() => setName("luigi")}>CHANGE NAME</button>
+      <p>name: {name}</p>
+      <p>
+        {" "}
+        {number}-{secondNumber}{" "}
+      </p>
+      <button onClick={() => setSecondNumber(secondNumber + 1)}>
+        Increment second
+      </button>
     </div>
   );
 }
