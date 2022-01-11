@@ -29,6 +29,7 @@ function CreatePost({ user, setPosts, posts }) {
         />
         <button>Submit form</button>
       </form>
+      {/* {test} */}
       {/* <p>Content: {content}</p> */}
       {/* {image && (
         <img
