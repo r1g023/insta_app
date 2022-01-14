@@ -4,37 +4,39 @@ import Header from "./components/Header";
 import CreatePost from "./components/CreatePost";
 
 function App() {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState({ rigo: "" });
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     console.log("useEffect--- running--->");
-    document.title = user ? `${user}'s feed` : "please log in";
-  }, [user]);
+    document.title = user.rigo ? `${user.rigo}'s feed` : "please log in";
+  }, [user.rigo]);
 
-  if (!user) {
+  if (!user.rigo) {
     return <Login setUser={setUser} />;
   }
 
   return (
     <div className="App">
-      <Header user={user} logOut={() => setUser("")} />
-      <CreatePost user={user} setPosts={setPosts} posts={posts} />
+      <Header
+        user={user.rigo}
+        logOut={() => {
+          setUser({
+            ...user,
+            rigo: "",
+          });
+        }}
+      />
+      <CreatePost user={user.rigo} posts={posts} setPosts={setPosts} />
       <>
-        {posts.map((item, index) => {
-          console.log("item----->", item);
+        {posts.map((item) => {
+          console.log("item--->", item);
           return (
-            <div className="car" key={index}>
+            <div className="card" key={item.id}>
+              <p>ID: {item.id}</p>
+              <p>User: {item.user} </p>
               <p>Content: {item.content}</p>
-              {item.image && (
-                <img
-                  src={URL.createObjectURL(item.image)}
-                  alt="imge"
-                  width="100"
-                  height="100"
-                />
-              )}
-              <p>User: {item.user}</p>
+              <img src={URL.createObjectURL(item.image)} alt="somephoto" />
             </div>
           );
         })}
