@@ -1,26 +1,23 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 
 function Login({ setUser }) {
-  const [username, setUsername] = useState({ me: "" });
-
-  const handleChanges = (e) => {
-    console.log(e.target.name, ": ", e.target.value);
-    setUsername({ ...username, [e.target.name]: e.target.value });
-  };
+  const [username, setUsername] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
-    setUser({ ...username, rigo: username.me });
+    setUser(username);
   }
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
+        <label htmlFor="username">Username</label>
         <input
           type="text"
-          name="me"
-          onChange={handleChanges}
-          value={username.me}
+          placeholder="login"
+          name="username"
+          onChange={(e) => setUsername(e.target.value)}
+          value={username}
         />
         <button>Login</button>
       </form>
