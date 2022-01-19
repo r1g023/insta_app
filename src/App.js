@@ -5,16 +5,17 @@ import CreatePost from "./components/CreatePost";
 
 function App() {
   const [user, setUser] = useState("");
-  const [posts, setPosts] = useState([]);
-  console.log("user--->", user, "posts--->", posts);
+  console.log("user--->", user);
+  const [posts, setPosts] = useState([
+    { id: 1, content: "test post", user: user, image: null },
+  ]);
+
+  console.log("posts before-->", posts);
 
   useEffect(() => {
-    console.log("component did run useEffect---->");
-    setTimeout(() => {
-      console.log("component did run useEffect SECOND TIME---->");
-      document.title = user ? `welcome ${user}` : `please log in`;
-    }, 3000);
-  }, []);
+    console.log("useEffect did run ---->");
+    document.title = user ? `welcome ${user}` : "please login";
+  }, [user]);
 
   if (!user) {
     return <Login setUser={setUser} />;
@@ -28,16 +29,16 @@ function App() {
       <CreatePost user={user} setPosts={setPosts} posts={posts} />
       <>
         {posts.map((item) => {
-          console.log("item--->", item);
+          console.log("item---->", item);
           return (
             <div className="card" key={item.id}>
-              <p>Content: {item.content}</p>
+              <p>content: {item.content}</p>
               <p>User: {item.user}</p>
-
+              <p>Image: {posts.image}</p>
               {item.image && (
                 <img
                   src={URL.createObjectURL(item.image)}
-                  alt="somephoto"
+                  alt="somephot"
                   height="50"
                 />
               )}

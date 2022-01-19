@@ -10,16 +10,15 @@ function Login({ setUser }) {
 
   return (
     <div>
+      <h2>Login user</h2>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username</label>
         <input
           type="text"
-          placeholder="login"
           name="username"
           onChange={(e) => setUsername(e.target.value)}
           value={username}
         />
-        <button>Login</button>
+        <button>Log in</button>
       </form>
     </div>
   );

@@ -1,6 +1,6 @@
 import React from "react";
 
-function Posts(props) {
+function Posts() {
   return <div>Posts component</div>;
 }
 

@@ -1,29 +1,29 @@
 import React, { useState } from "react";
 
-function CreatePost({ setPosts, user, posts }) {
+function CreatePost({ user, setPosts, posts }) {
   const [credentials, setCredentials] = useState({
     content: "",
     image: null,
   });
+
+  function handleChanges(e) {
+    console.log(e.target.name, e.target.value);
+    setCredentials({
+      ...credentials,
+      [e.target.name]:
+        e.target.type === "file" ? e.target.files[0] : e.target.value,
+    });
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
     let newPost = {
       id: Date.now(),
       content: credentials.content,
-      user: user,
       image: credentials.image,
+      user,
     };
     setPosts([...posts, newPost]);
-  }
-
-  function handleChanges(e) {
-    console.log(e.target.name, e.target.value, "files-->", e.target.files);
-    setCredentials({
-      ...credentials,
-      [e.target.name]:
-        e.target.type === "file" ? e.target.files[0] : e.target.value,
-    });
   }
 
   return (
@@ -33,24 +33,12 @@ function CreatePost({ setPosts, user, posts }) {
         <input
           type="text"
           name="content"
-          onChange={handleChanges}
           value={credentials.content}
+          onChange={handleChanges}
         />
         <input type="file" name="image" onChange={handleChanges} />
-        <button>Submit</button>
+        <button>Submit Post</button>
       </form>
-      {/* <>
-        <p>Content: {credentials.content}</p>
-        <p>User: {credentials.user}</p>
-        {credentials.image && (
-          <img
-            src={URL.createObjectURL(credentials.image)}
-            alt="fadfadf"
-            height="50"
-            width="50"
-          />
-        )}
-      </> */}
     </div>
   );
 }
