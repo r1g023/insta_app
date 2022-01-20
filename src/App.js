@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import Login from "./components/Login";
 import Header from "./components/Header";
 import CreatePost from "./components/CreatePost";
+import { Modal } from "./components/Modal";
 
 function App() {
   const [user, setUser] = useState("");
+  const [toggle, setToggle] = useState(false);
   console.log("user--->", user);
   const [posts, setPosts] = useState([
     { id: 1, content: "test post", user: user, image: null },
@@ -17,21 +19,30 @@ function App() {
     document.title = user ? `welcome ${user}` : "please login";
   }, [user]);
 
-  if (!user) {
-    return <Login setUser={setUser} />;
-  }
+  // if (!user) {
+  //   return <Login setUser={setUser} />;
+  // }
+
+  const toggleModal = () => {
+    setToggle((prev) => !prev);
+  };
 
   return (
     <div className="App">
       {console.log("component did mount")}
       <p>App</p>
-      <Header user={user} setUser={setUser} />
+      <Header user={user} setUser={setUser} setToggle={toggleModal} />
       <CreatePost user={user} setPosts={setPosts} posts={posts} />
+
       <>
         {posts.map((item) => {
           console.log("item---->", item);
           return (
-            <div className="card" key={item.id}>
+            <div
+              className="card"
+              key={item.id}
+              style={{ border: "1px solid black", width: "200px" }}
+            >
               <p>content: {item.content}</p>
               <p>User: {item.user}</p>
               <p>Image: {posts.image}</p>
@@ -46,6 +57,11 @@ function App() {
           );
         })}
       </>
+      {toggle ? (
+        <Modal>
+          <p>This is the modal</p>
+        </Modal>
+      ) : null}
     </div>
   );
 }
