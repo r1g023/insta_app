@@ -2,66 +2,38 @@ import React, { useState, useEffect } from "react";
 import Login from "./components/Login";
 import Header from "./components/Header";
 import CreatePost from "./components/CreatePost";
-import { Modal } from "./components/Modal";
 
 function App() {
   const [user, setUser] = useState("");
-  const [toggle, setToggle] = useState(false);
-  console.log("user--->", user);
-  const [posts, setPosts] = useState([
-    { id: 1, content: "test post", user: user, image: null },
-  ]);
-
-  console.log("posts before-->", posts);
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    console.log("useEffect did run ---->");
-    document.title = user ? `welcome ${user}` : "please login";
+    document.title = user ? `Welcome ${user}` : "please login";
   }, [user]);
 
-  // if (!user) {
-  //   return <Login setUser={setUser} />;
-  // }
-
-  const toggleModal = () => {
-    setToggle((prev) => !prev);
-  };
+  if (!user) return <Login setUser={setUser} />;
 
   return (
     <div className="App">
-      {console.log("component did mount")}
-      <p>App</p>
-      <Header user={user} setUser={setUser} setToggle={toggleModal} />
-      <CreatePost user={user} setPosts={setPosts} posts={posts} />
-
+      App
+      <Header user={user} signOut={setUser} />
+      <CreatePost user={user} posts={posts} setPosts={setPosts} />
       <>
-        {posts.map((item) => {
-          console.log("item---->", item);
-          return (
-            <div
-              className="card"
-              key={item.id}
-              style={{ border: "1px solid black", width: "200px" }}
-            >
-              <p>content: {item.content}</p>
-              <p>User: {item.user}</p>
-              <p>Image: {posts.image}</p>
-              {item.image && (
-                <img
-                  src={URL.createObjectURL(item.image)}
-                  alt="somephot"
-                  height="50"
-                />
-              )}
-            </div>
-          );
-        })}
+        {posts.map((item) => (
+          <div className="post" key={item.id}>
+            {console.log("item---->", item)}
+            <p>Content: {item.content}</p>
+            <p>User: {item.user}</p>
+            {item.image && (
+              <img
+                src={URL.createObjectURL(item.image)}
+                alt="post"
+                height="50"
+              />
+            )}
+          </div>
+        ))}
       </>
-      {toggle ? (
-        <Modal>
-          <p>This is the modal</p>
-        </Modal>
-      ) : null}
     </div>
   );
 }

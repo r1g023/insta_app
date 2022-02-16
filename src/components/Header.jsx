@@ -1,17 +1,13 @@
 import React from "react";
 
-function Header({ user, setUser, setToggle }) {
+function Header({ user, signOut }) {
   return (
-    <div>
-      <p>Welcome, {user}!</p>
+    <div className="header">
+      <h1>Header</h1>
+      <p>Welcome, {user}! </p>
 
-      <button onClick={() => setUser()}>Log out</button>
-      <button
-        style={{ marginLeft: "100px", background: "skyblue" }}
-        onClick={() => setToggle()}
-      >
-        Handle Toggle Modal
-      </button>
+      {/* button to logout */}
+      <button onClick={() => signOut()}>Logout</button>
     </div>
   );
 }

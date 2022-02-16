@@ -6,8 +6,8 @@ function CreatePost({ user, setPosts, posts }) {
     image: null,
   });
 
-  function handleChanges(e) {
-    console.log(e.target.name, e.target.value);
+  function handleChange(e) {
+    console.log(e.target.name, e.target.value, e.target.files);
     setCredentials({
       ...credentials,
       [e.target.name]:
@@ -21,29 +21,31 @@ function CreatePost({ user, setPosts, posts }) {
       id: Date.now(),
       content: credentials.content,
       image: credentials.image,
-      user,
+      user: user,
     };
     setPosts([...posts, newPost]);
   }
 
   return (
-    <div>
-      <h1>Create New Post</h1>
+    <div className="post">
+      <h2>CreatePost</h2>
       <form onSubmit={handleSubmit}>
+        <label htmlFor="content">Content:</label>
         <input
           type="text"
           name="content"
+          onChange={handleChange}
           value={credentials.content}
-          onChange={handleChanges}
         />
-        <input type="file" name="image" onChange={handleChanges} />
-        <button>Submit Post</button>
+        {/* Image upload file */}
+        <label htmlFor="image">Image:</label>
+        <input type="file" name="image" onChange={handleChange} />
+        {/* button to upload a file */}
+        <button>Upload file</button>
       </form>
+      <p>Content: {credentials.content}</p>
     </div>
   );
 }
 
 export default CreatePost;
-
-// [e.target.name]:
-//         e.target.type === "checkbox" ? e.target.checked : e.target.value

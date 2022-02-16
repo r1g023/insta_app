@@ -9,17 +9,19 @@ function Login({ setUser }) {
   }
 
   return (
-    <div>
-      <h2>Login user</h2>
+    <div className="login">
+      <h1>Login</h1>
       <form onSubmit={handleSubmit}>
+        <label htmlFor="username">Username:</label>
         <input
           type="text"
           name="username"
           onChange={(e) => setUsername(e.target.value)}
           value={username}
         />
-        <button>Log in</button>
+        <button>Add User</button>
       </form>
+      <p>State: {username}</p>
     </div>
   );
 }
