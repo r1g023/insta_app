@@ -39,3 +39,6 @@ function App() {
 }
 
 export default App;
+
+//function to add two numbers to the
+//set up vs code WSL LINUX tests
