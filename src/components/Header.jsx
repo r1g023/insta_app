@@ -1,15 +1,7 @@
 import React from "react";
 
-function Header({ user, signOut }) {
-  return (
-    <div className="header">
-      <h1>Header</h1>
-      <p>Welcome, {user}! </p>
-
-      {/* button to logout */}
-      <button onClick={() => signOut()}>Logout</button>
-    </div>
-  );
+function Header() {
+  return <div className="header"></div>;
 }
 
 export default Header;
