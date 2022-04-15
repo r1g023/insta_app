@@ -1,32 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState({ name: "" });
+  const [users, setUsers] = useState([]);
+
+  const inputElement = useRef();
+
+  const focusInput = () => {
+    inputElement.current.value = "";
+  };
 
   function handleChanges(e) {
-    console.log(e.target.name, e.target.value);
-    setUsername(e.target.value);
+    setUsername({
+      ...username,
+      [e.target.name]: e.target.value,
+    });
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    setUsername(username);
+    let newUsername = {
+      id: Date.now(),
+      name: username.name,
+    };
+    setUsers([...users, newUsername]);
+    setUsername({
+      ...username,
+      name: "",
+    });
   }
 
   return (
     <div className="login">
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Login:</label>
+        <label htmlFor="name">Login:</label>
         <input
+          ref={inputElement}
           type="text"
-          name="username"
+          name="name"
           onChange={handleChanges}
-          value={username}
+          value={username.name}
         />
-        <button>Login</button>
+        <button onClick={focusInput}>Login</button>
       </form>
-      {username}
+      {users &&
+        users.map((item) => {
+          console.log(item);
+          return (
+            <div className="card" key={item.id}>
+              <p>Name: {item.name}</p>
+            </div>
+          );
+        })}
     </div>
   );
 }
