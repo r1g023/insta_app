@@ -1,18 +1,15 @@
 //modal to display createpost.jsx
 import React from "react";
 
-function Modal(props) {
+function Modal({ children, onCancel }) {
   return (
     <div className="modal-container">
-      <div className="modal">
-        <div className="modal-header">
-          <h3>{props.title}</h3>
-          <button className="modal-close-button" onClick={props.onClose}>
-            <span>&times;</span>
-          </button>
+      <h1>Modal</h1>
+      <div className="modal-content">
+        <div className="modal">{children}</div>
+        <div className="footer">
+          <button onClick={onCancel}>Close Modal</button>
         </div>
-        <div className="modal-content">{props.children}</div>
-        <button onClick={props.cancelModal}>Cancel</button>
       </div>
     </div>
   );
