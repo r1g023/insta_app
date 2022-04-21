@@ -73,6 +73,9 @@
   margin-top: 20px;
 }
 
+.completed {
+  background: red;
+}
 
 
 /* max-width: 460px;

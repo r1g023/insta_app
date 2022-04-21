@@ -3,11 +3,15 @@ import Login from "./components/Login";
 import Header from "./components/Header";
 import CreatePost from "./components/CreatePost";
 import Modal from "./components/Modal";
+import PostList from "./components/PostList";
+
+const functionsCount = new Set();
 
 function App() {
   const [user, setUser] = useState("");
   const [posts, setPosts] = useState([]);
   const [toggleModal, setToggleModal] = useState(false);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     document.title = user ? `welcome ${user}` : "Please login";
@@ -17,6 +21,15 @@ function App() {
     setToggleModal(!toggleModal);
   }
 
+  const addAPost = React.useCallback(
+    (newPost) => {
+      setPosts([...posts, newPost]);
+    },
+    [posts]
+  );
+  functionsCount.add(addAPost);
+  console.log(functionsCount);
+
   if (!user) return <Login setUser={setUser} />;
   return (
     <div className="App">
@@ -25,25 +38,17 @@ function App() {
       {toggleModal ? (
         <Modal onCancel={handleToggleModal}>
           <CreatePost
-            setPosts={setPosts}
-            posts={posts}
+            addAPost={addAPost}
             user={user}
             closeModal={handleToggleModal}
           />
         </Modal>
       ) : null}
       <>
-        {posts.map((item) => (
-          <div className="postCard" key={item.id}>
-            <p>User: {item.user}</p>
-            <p>Content: {item.content}</p>
-            <img
-              src={URL.createObjectURL(item.image)}
-              alt="randomIm"
-              width="50px"
-            />
-          </div>
-        ))}
+        <PostList posts={posts} />
+        <button onClick={() => setCount((prev) => prev + 1)}>
+          Count: {count} +
+        </button>
       </>
     </div>
   );
