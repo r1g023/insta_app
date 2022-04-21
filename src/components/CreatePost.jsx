@@ -1,16 +1,13 @@
 import React, { useState, useRef } from "react";
 
-function CreatePost({ setPosts, posts, user }) {
+function CreatePost({ addAPost, user }) {
   const [newPost, setNewPost] = useState({
     content: "",
     image: null,
+    completed: false,
   });
 
   const ref = useRef();
-
-  const reset = () => {
-    ref.current.value = "";
-  };
 
   function handleChanges(e) {
     console.log(e.target.name, e.target.value, e.target.files);
@@ -29,9 +26,9 @@ function CreatePost({ setPosts, posts, user }) {
       content: newPost.content,
       image: newPost.image,
     };
-    setNewPost({ ...newPost, content: "", image: "" });
-    setPosts([...posts, createNewPost]);
-    reset(); // clear out image input
+    setNewPost({ ...newPost, content: "" });
+    addAPost(createNewPost);
+    ref.current.value = ""; // clear out image input
   }
 
   return (
