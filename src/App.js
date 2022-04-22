@@ -27,6 +27,28 @@ function App() {
     },
     [posts]
   );
+
+  function toggleCard(itemID) {
+    console.log("toggled ID", itemID);
+
+    let handleToggle = posts.map((item) => {
+      console.log("item---->", item);
+      if (item.id === itemID) {
+        return {
+          ...item,
+          completed: !item.completed,
+        };
+      }
+      return item;
+    });
+    setPosts(handleToggle);
+  }
+
+  function deleteToggleSelected() {
+    let deletedCard = posts.filter((item) => !item.completed);
+    setPosts(deletedCard);
+  }
+
   functionsCount.add(addAPost);
   console.log(functionsCount);
 
@@ -45,10 +67,11 @@ function App() {
         </Modal>
       ) : null}
       <>
-        <PostList posts={posts} />
+        <PostList posts={posts} toggleCard={toggleCard} />
         <button onClick={() => setCount((prev) => prev + 1)}>
           Count: {count} +
         </button>
+        <button onClick={deleteToggleSelected}>Delete Global Card</button>
       </>
     </div>
   );

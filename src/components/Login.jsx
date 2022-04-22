@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 
 function Login({ setUser }) {
   const [username, setUsername] = useState({ name: "" });
