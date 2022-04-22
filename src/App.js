@@ -49,10 +49,16 @@ function App() {
     setPosts(deletedCard);
   }
 
+  function deletePost(itemID) {
+    let result = posts.filter((item) => itemID !== item.id);
+    setPosts(result);
+  }
+
   functionsCount.add(addAPost);
   console.log(functionsCount);
 
   if (!user) return <Login setUser={setUser} />;
+
   return (
     <div className="App">
       <Header user={user} signOut={() => setUser("")} />
@@ -67,7 +73,7 @@ function App() {
         </Modal>
       ) : null}
       <>
-        <PostList posts={posts} toggleCard={toggleCard} />
+        <PostList posts={posts} toggleCard={toggleCard} onDelete={deletePost} />
         <button onClick={() => setCount((prev) => prev + 1)}>
           Count: {count} +
         </button>
