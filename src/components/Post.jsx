@@ -1,8 +1,19 @@
 import React from "react";
 
-export default function Post({ user, id, content, image }) {
+export default function Post({
+  user,
+  id,
+  content,
+  image,
+  completed,
+  toggleCard,
+}) {
   return (
-    <div className="postCard" key={id}>
+    <div
+      className={completed ? "completed" : ""}
+      key={id}
+      onClick={() => toggleCard(id)}
+    >
       <p>User: {user}</p>
       <p>Content: {content}</p>
       {image && (

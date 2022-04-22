@@ -25,6 +25,7 @@ function CreatePost({ addAPost, user }) {
       user: user,
       content: newPost.content,
       image: newPost.image,
+      completed: newPost.completed,
     };
     setNewPost({ ...newPost, content: "" });
     addAPost(createNewPost);
