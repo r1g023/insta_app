@@ -11,7 +11,6 @@ function App() {
   const [user, setUser] = useState("");
   const [posts, setPosts] = useState([]);
   const [toggleModal, setToggleModal] = useState(false);
-  const [count, setCount] = useState(0);
 
   useEffect(() => {
     document.title = user ? `welcome ${user}` : "Please login";
@@ -29,10 +28,7 @@ function App() {
   );
 
   function toggleCard(itemID) {
-    console.log("toggled ID", itemID);
-
     let handleToggle = posts.map((item) => {
-      console.log("item---->", item);
       if (item.id === itemID) {
         return {
           ...item,
@@ -49,10 +45,16 @@ function App() {
     setPosts(deletedCard);
   }
 
+  function deletePost(itemID) {
+    let result = posts.filter((item) => itemID !== item.id);
+    setPosts(result);
+  }
+
   functionsCount.add(addAPost);
   console.log(functionsCount);
 
   if (!user) return <Login setUser={setUser} />;
+
   return (
     <div className="App">
       <Header user={user} signOut={() => setUser("")} />
@@ -63,14 +65,13 @@ function App() {
             addAPost={addAPost}
             user={user}
             closeModal={handleToggleModal}
+            toggleModalNow={setToggleModal}
           />
         </Modal>
       ) : null}
       <>
-        <PostList posts={posts} toggleCard={toggleCard} />
-        <button onClick={() => setCount((prev) => prev + 1)}>
-          Count: {count} +
-        </button>
+        <PostList posts={posts} toggleCard={toggleCard} onDelete={deletePost} />
+
         <button onClick={deleteToggleSelected}>Delete Global Card</button>
       </>
     </div>

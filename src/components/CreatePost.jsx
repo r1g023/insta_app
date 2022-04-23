@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 
-function CreatePost({ addAPost, user }) {
+function CreatePost({ addAPost, user, toggleModalNow }) {
   const [newPost, setNewPost] = useState({
     content: "",
     image: null,
@@ -29,6 +29,7 @@ function CreatePost({ addAPost, user }) {
     };
     setNewPost({ ...newPost, content: "" });
     addAPost(createNewPost);
+    toggleModalNow(); // remove modal upon submitting new post
     ref.current.value = ""; // clear out image input
   }
 

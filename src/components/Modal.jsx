@@ -4,7 +4,6 @@ import React from "react";
 function Modal({ children, onCancel }) {
   return (
     <div className="modal-container">
-      <h1>Modal</h1>
       <div className="modal-content">
         <div className="modal">{children}</div>
         <div className="footer">
