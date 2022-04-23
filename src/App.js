@@ -11,7 +11,6 @@ function App() {
   const [user, setUser] = useState("");
   const [posts, setPosts] = useState([]);
   const [toggleModal, setToggleModal] = useState(false);
-  const [count, setCount] = useState(0);
 
   useEffect(() => {
     document.title = user ? `welcome ${user}` : "Please login";
@@ -29,10 +28,7 @@ function App() {
   );
 
   function toggleCard(itemID) {
-    console.log("toggled ID", itemID);
-
     let handleToggle = posts.map((item) => {
-      console.log("item---->", item);
       if (item.id === itemID) {
         return {
           ...item,
@@ -69,14 +65,13 @@ function App() {
             addAPost={addAPost}
             user={user}
             closeModal={handleToggleModal}
+            toggleModalNow={setToggleModal}
           />
         </Modal>
       ) : null}
       <>
         <PostList posts={posts} toggleCard={toggleCard} onDelete={deletePost} />
-        <button onClick={() => setCount((prev) => prev + 1)}>
-          Count: {count} +
-        </button>
+
         <button onClick={deleteToggleSelected}>Delete Global Card</button>
       </>
     </div>
