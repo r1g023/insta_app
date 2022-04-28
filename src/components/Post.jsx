@@ -10,7 +10,7 @@ export default function Post({
   onDelete,
 }) {
   return (
-    <div style={{ background: "green" }}>
+    <div className="post-container">
       <div
         className={completed ? "completed" : ""}
         onClick={() => toggleCard(id)}
