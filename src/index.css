@@ -54,12 +54,12 @@
 }
 
 .modal-content {
-  background-color: rgba(14, 11, 11, 0.7);
+  background-color: #fff;
   padding: 30px;
   width: 100%;
   max-width: 660px;
   position: absolute;
-  color: white;
+  color: black;
 }
 
 .modal {
@@ -67,12 +67,28 @@
 }
 
 .footer {
- 
   margin-top: 20px;
 }
 
+.post-wrapper {
+  max-width: 1000px;
+  width: 100%;
+  border: 1px solid green;
+  margin: 10px auto;
+  padding: 20px;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.post-container {
+  border: 1px solid black;
+  width: 100%;
+  max-width: 160px;
+}
 .completed {
   background: red;
+  
 }
 
 

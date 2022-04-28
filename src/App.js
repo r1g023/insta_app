@@ -41,13 +41,15 @@ function App() {
   }
 
   function deleteToggleSelected() {
-    let deletedCard = posts.filter((item) => !item.completed);
-    setPosts(deletedCard);
+    let result = posts.filter((item) => !item.completed);
+    if (window.confirm("Are you sure you want to delete note?") && result)
+      return setPosts(result);
   }
 
   function deletePost(itemID) {
     let result = posts.filter((item) => itemID !== item.id);
-    setPosts(result);
+    if (window.confirm("Are you sure you want to delete note?") && result)
+      return setPosts(result);
   }
 
   functionsCount.add(addAPost);
@@ -69,11 +71,10 @@ function App() {
           />
         </Modal>
       ) : null}
-      <>
+      <div className="post-wrapper">
         <PostList posts={posts} toggleCard={toggleCard} onDelete={deletePost} />
-
-        <button onClick={deleteToggleSelected}>Delete Global Card</button>
-      </>
+      </div>
+      <button onClick={deleteToggleSelected}>Delete Global Card</button>
     </div>
   );
 }
