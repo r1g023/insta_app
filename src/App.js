@@ -9,8 +9,17 @@ const functionsCount = new Set();
 
 function App() {
   const [user, setUser] = useState("");
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState([
+    {
+      id: Date.now(),
+      content: "test",
+      user: user,
+      image: null,
+      completed: false,
+    },
+  ]);
   const [toggleModal, setToggleModal] = useState(false);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     document.title = user ? `welcome ${user}` : "Please login";
@@ -20,6 +29,7 @@ function App() {
     setToggleModal(!toggleModal);
   }
 
+  //use callback
   const addAPost = React.useCallback(
     (newPost) => {
       setPosts([...posts, newPost]);
@@ -27,7 +37,9 @@ function App() {
     [posts]
   );
 
-  function toggleCard(itemID) {
+  //when do we need to recreate this addAPost function? When something changes when do we actually need create this function and execute it. We want to do that when our POST ARRAY changes.
+
+  const toggleCard = (itemID) => {
     let handleToggle = posts.map((item) => {
       if (item.id === itemID) {
         return {
@@ -38,24 +50,28 @@ function App() {
       return item;
     });
     setPosts(handleToggle);
-  }
+  };
 
-  function deleteToggleSelected() {
+  const deleteToggleSelected = React.useCallback(() => {
     let result = posts.filter((item) => !item.completed);
-    if (window.confirm("Are you sure you want to delete note?") && result)
-      return setPosts(result);
-  }
+    console.log("toggle delete-->", result);
+
+    return setPosts(result);
+  }, [posts]);
 
   function deletePost(itemID) {
     let result = posts.filter((item) => itemID !== item.id);
-    if (window.confirm("Are you sure you want to delete note?") && result)
+    if (window.confirm("Are you sure you want to delete note?"))
       return setPosts(result);
   }
 
+  // AddAPost callback is being recreated when state changes. It gets recreated, so we need to take care of performance. How to fix that from being recreated unnecessarily? We use the useCallback Hook.MEMOIZED CALLBACK to addAPost
   functionsCount.add(addAPost);
+  functionsCount.add(deleteToggleSelected);
+
   console.log(functionsCount);
 
-  if (!user) return <Login setUser={setUser} />;
+  // if (!user) return <Login setUser={setUser} />;
 
   return (
     <div className="App">
@@ -75,6 +91,13 @@ function App() {
         <PostList posts={posts} toggleCard={toggleCard} onDelete={deletePost} />
       </div>
       <button onClick={deleteToggleSelected}>Delete Global Card</button>
+      <button
+        style={{ color: "red" }}
+        onClick={() => setCount((prev) => prev + 1)}
+      >
+        SET COUNT
+      </button>
+      <p style={{ color: "red" }}>Count: {count}</p>
     </div>
   );
 }
