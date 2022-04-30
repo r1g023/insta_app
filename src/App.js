@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, createContext } from "react";
 import Login from "./components/Login";
 import Header from "./components/Header";
 import CreatePost from "./components/CreatePost";
@@ -6,6 +6,10 @@ import Modal from "./components/Modal";
 import PostList from "./components/PostList";
 
 const functionsCount = new Set();
+export const UserContext = createContext(); //object with 2 properties
+//provider property = to past data that we want to pass down to our component tree.
+// consumer property to consume or use the data that we are passing down to our component tree
+//wrap components with UserContext.Provider
 
 function App() {
   const [user, setUser] = useState("");
@@ -71,34 +75,40 @@ function App() {
 
   console.log(functionsCount);
 
-  // if (!user) return <Login setUser={setUser} />;
+  if (!user) return <Login setUser={setUser} />;
 
   return (
-    <div className="App">
-      <Header user={user} signOut={() => setUser("")} />
-      <button onClick={handleToggleModal}>Open Modal</button>
-      {toggleModal ? (
-        <Modal onCancel={handleToggleModal}>
-          <CreatePost
-            addAPost={addAPost}
-            user={user}
-            closeModal={handleToggleModal}
-            toggleModalNow={setToggleModal}
+    <UserContext.Provider value={user}>
+      <div className="App">
+        <Header user={user} signOut={() => setUser("")} />
+        <button onClick={handleToggleModal}>Open Modal</button>
+        {toggleModal ? (
+          <Modal onCancel={handleToggleModal}>
+            <CreatePost
+              addAPost={addAPost}
+              user={user}
+              closeModal={handleToggleModal}
+              toggleModalNow={setToggleModal}
+            />
+          </Modal>
+        ) : null}
+        <div className="post-wrapper">
+          <PostList
+            posts={posts}
+            toggleCard={toggleCard}
+            onDelete={deletePost}
           />
-        </Modal>
-      ) : null}
-      <div className="post-wrapper">
-        <PostList posts={posts} toggleCard={toggleCard} onDelete={deletePost} />
+        </div>
+        <button onClick={deleteToggleSelected}>Delete Global Card</button>
+        <button
+          style={{ color: "red" }}
+          onClick={() => setCount((prev) => prev + 1)}
+        >
+          SET COUNT
+        </button>
+        <p style={{ color: "red" }}>Count: {count}</p>
       </div>
-      <button onClick={deleteToggleSelected}>Delete Global Card</button>
-      <button
-        style={{ color: "red" }}
-        onClick={() => setCount((prev) => prev + 1)}
-      >
-        SET COUNT
-      </button>
-      <p style={{ color: "red" }}>Count: {count}</p>
-    </div>
+    </UserContext.Provider>
   );
 }
 
