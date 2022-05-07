@@ -26,6 +26,7 @@ function App() {
 
   const initialPostState = useContext(PostContext);
   const [state, dispatch] = useReducer(PostReducer, initialPostState);
+  //send dispatch to create post
   console.log("state------------------------>", state);
 
   const [toggleModal, setToggleModal] = useState(false);
