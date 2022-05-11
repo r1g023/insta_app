@@ -7,6 +7,6 @@ export default function postReducer(state, action) {
     case "DELETE_POST": {
     }
     default:
-      return state;
+      throw new Error(`Unknown action type: ${action.type}`);
   }
 }
