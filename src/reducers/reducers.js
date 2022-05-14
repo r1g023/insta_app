@@ -4,8 +4,11 @@ export default function postReducer(state, action) {
       const newPost = action.payload.post;
       return { posts: [newPost, ...state.posts] };
     }
-    case "DELETE_POST": {
-    }
+    // case "DELETE_POST":
+    //   {
+    //     //
+    //   }
+
     default:
       throw new Error(`Unknown action type: ${action.type}`);
   }
