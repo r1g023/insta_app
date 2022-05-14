@@ -25,7 +25,7 @@ export default function useForm(initialValue) {
       console.log("button enabled--->", valid);
       setButtonDisabled(!valid);
     });
-  }, [value]);
+  }, [formSchema, value]);
   console.log("errors-...>", errors);
 
   //validate for errors if inputs are not filled out completely based on yup

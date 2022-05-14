@@ -1,15 +1,16 @@
-export default function postReducer(state, action) {
+export const initialState = {
+  posts: [],
+};
+
+export const reducer = (state, action) => {
   switch (action.type) {
     case "ADD_POST": {
-      const newPost = action.payload.post;
-      return { posts: [newPost, ...state.posts] };
+      return {
+        ...state,
+        posts: [...state.posts, action.payload.newPost],
+      };
     }
-    // case "DELETE_POST":
-    //   {
-    //     //
-    //   }
-
     default:
-      throw new Error(`Unknown action type: ${action.type}`);
+      throw new Error(`can't find action type of ${action.type}`);
   }
-}
+};

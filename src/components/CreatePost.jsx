@@ -1,10 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 
 import useForm from "../formHooks/useForm";
-import { PostContext } from "../App";
 
 function CreatePost({ user, toggleModalNow }) {
-  const { dispatch } = React.useContext(PostContext);
   const [value, setValue, errors, buttonDisabled, ref, handleChanges] = useForm(
     {
       content: "",
@@ -22,7 +20,7 @@ function CreatePost({ user, toggleModalNow }) {
       image: value.image,
       completed: value.completed,
     };
-    dispatch({ type: "ADD_POST", payload: { post } });
+
     setValue({ ...value, content: "" });
 
     toggleModalNow(); // remove modal upon submitting new post
