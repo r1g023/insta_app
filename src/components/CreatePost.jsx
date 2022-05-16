@@ -1,8 +1,11 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 
 import useForm from "../formHooks/useForm";
+import { PostContext } from "../App";
 
-function CreatePost({ user, toggleModalNow }) {
+function CreatePost({ user }) {
+  const { state, dispatch } = useContext(PostContext);
+  console.log("state---->", state);
   const [value, setValue, errors, buttonDisabled, ref, handleChanges] = useForm(
     {
       content: "",
@@ -20,10 +23,8 @@ function CreatePost({ user, toggleModalNow }) {
       image: value.image,
       completed: value.completed,
     };
-
+    dispatch({ type: "ADD_POST", payload: { newPost: post } });
     setValue({ ...value, content: "" });
-
-    toggleModalNow(); // remove modal upon submitting new post
     ref.current.value = ""; // clear out image input
   }
 
