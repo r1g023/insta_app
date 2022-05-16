@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 function Login({ setUser }) {
-  const [username, setUsername] = useState({ name: "" });
+  const [username, setUsername] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
-    setUser(username.name);
-    setUsername({ ...username, name: "" });
+    setUser(username);
+    setUsername("");
   }
 
   return (
@@ -16,10 +16,8 @@ function Login({ setUser }) {
         <input
           type="text"
           name="name"
-          value={username.name}
-          onChange={(e) =>
-            setUsername({ ...username, [e.target.name]: e.target.value })
-          }
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
         <button>Login</button>
       </form>

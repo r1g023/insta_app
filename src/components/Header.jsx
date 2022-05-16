@@ -1,14 +1,13 @@
 import React, { useContext } from "react";
 import { UserContext } from "../App";
 
-function Header({ signOut }) {
-  const { user } = useContext(UserContext);
-  console.log("user--->", user);
+function Header() {
+  const { user, setUser } = useContext(UserContext);
   return (
     <div className="header">
       <h1>Header</h1>
       <p>Welcome {user}!</p>
-      <button onClick={signOut}>Logout</button>
+      <button onClick={() => setUser("")}>Logout</button>
     </div>
   );
 }
