@@ -23,7 +23,6 @@ function App() {
   }, [user]);
 
   if (!user) return <Login setUser={setUser} />;
-
   return (
     <PostContext.Provider value={{ state, dispatch }}>
       <UserContext.Provider value={{ user, setUser }}>
