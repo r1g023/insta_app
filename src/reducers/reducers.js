@@ -5,17 +5,18 @@ export const initialState = {
 export const postReducer = (state, action) => {
   switch (action.type) {
     case "ADD_POST": {
+      const newPost = action.payload.newPost;
       return {
         ...state,
-        posts: [...state.posts, action.payload.newPost],
+        posts: [...state.posts, newPost],
       };
     }
     case "TOGGLE_POST": {
       return {
         ...state,
         posts: state.posts.map((item) => {
-          console.log("item--->", item);
           if (item.id === action.payload) {
+            console.log("item--->", item);
             return {
               ...item,
               completed: !item.completed,
@@ -33,9 +34,10 @@ export const postReducer = (state, action) => {
     }
 
     case "DELETE_POST": {
+      console.log("action----->", action);
       return {
         ...state,
-        posts: state.posts.filter((item) => item.id !== action.payload),
+        posts: state.posts.filter((item) => item.id !== action.payload.id),
       };
     }
 

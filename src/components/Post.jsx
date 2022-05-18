@@ -8,10 +8,17 @@ export default function Post({
   completed,
   user,
   toggleComplete,
-  deletePost,
 }) {
   const currentUser = useContext(UserContext);
+  const { dispatch } = useContext(PostContext);
+
   const isCurrentUser = currentUser.user === user;
+
+  function deletePost() {
+    if (window.confirm("delete post?")) {
+      dispatch({ type: "DELETE_POST", payload: { id } });
+    }
+  }
 
   return (
     <div className="post-container">
@@ -25,7 +32,7 @@ export default function Post({
           <img src={URL.createObjectURL(image)} alt="randomIm" width="50px" />
         )}
       </div>
-      <button onClick={() => deletePost(id)}>DELETE POST</button>
+      {isCurrentUser && <button onClick={deletePost}>DELETE POST</button>}
     </div>
   );
 }
