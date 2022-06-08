@@ -17,7 +17,7 @@ function App() {
   console.log("todo---------->", data);
 
   if (loading) return <div>Loading....</div>;
-  if (error) return <div>Error...</div>;
+  if (error) return <div>Error....</div>;
 
   return (
     <div className="vh-100 code flex flex-column items-center bg-purple white pa3">
