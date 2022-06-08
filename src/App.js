@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
-import { toBeEmptyDOMElement } from "@testing-library/jest-dom/dist/matchers";
+
 
 const GET_TODOS = gql`
   query getTodos {
@@ -17,6 +17,9 @@ function App() {
   console.log("todo---------->", todo);
   if (todo.loading) return <div>Loading....</div>;
   if (todo.error) return <div>Error...</div>;
+
+
+  
   return (
     <div className="App">
       App
