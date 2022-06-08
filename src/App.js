@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { useQuery, gql } from "@apollo/client";
-
+import { useQuery, useMutation, gql } from "@apollo/client";
 
 const GET_TODOS = gql`
   query getTodos {
@@ -13,22 +12,41 @@ const GET_TODOS = gql`
 `;
 
 function App() {
-  const todo = useQuery(GET_TODOS);
-  console.log("todo---------->", todo);
-  if (todo.loading) return <div>Loading....</div>;
-  if (todo.error) return <div>Error...</div>;
+  const { error, loading, data } = useQuery(GET_TODOS);
 
+  console.log("todo---------->", data);
 
-  
+  if (loading) return <div>Loading....</div>;
+  if (error) return <div>Error....</div>;
+
   return (
-    <div className="App">
-      App
-      {todo.data.todos.map((item) => (
-        <div key={item.id}>
-          <p>Text: {item.text}</p>
-          <p>Done: {item.done ? "Yes" : "No"}</p>
-        </div>
-      ))}
+    <div className="vh-100 code flex flex-column items-center bg-purple white pa3">
+      <h1>
+        GraphQL Checklist
+        <span role="img" aria-label="checkmark">
+          ✅
+        </span>
+      </h1>
+
+      <form onSubmit={null} className="mb3">
+        <input type="text" className="pa2 f4 b--dashed" />
+        <button className="pa2 f4 bg-green">Add Todo</button>
+      </form>
+
+      {/* todos  */}
+      <div className="flex items-center justify-center flex-column">
+        {data.todos.map((item) => (
+          <p key={item.id}>
+            <span className={`pointer list pa1 f3`}>
+              Text: {item.text}
+              {/* X remove button  */}
+              <button className="bg-transparent bn f4">
+                <span className="red f2">&times;</span>
+              </button>
+            </span>
+          </p>
+        ))}
+      </div>
     </div>
   );
 }
