@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useQuery, useMutation, gql } from "@apollo/client";
 
 const GET_TODOS = gql`
-  query getTodos {
+  query todos {
     todos {
       id
       text
@@ -11,14 +11,33 @@ const GET_TODOS = gql`
   }
 `;
 
+const TOGGLE_TODO = gql`
+  mutation toggleTodo($id: uuid!, $done: Boolean!) {
+    update_todos(where: { id: { _eq: $id } }, _set: { done: $done }) {
+      returning {
+        id
+        text
+        done
+      }
+    }
+  }
+`;
+
 function App() {
-  const { error, loading, data } = useQuery(GET_TODOS);
+  const { loading, error, data } = useQuery(GET_TODOS);
+  const [toggleTodo] = useMutation(TOGGLE_TODO);
 
-  console.log("todo---------->", data);
+  async function handleToggle(todo) {
+    let data = await toggleTodo({
+      variables: { id: todo.id, done: !todo.done },
+    });
+    console.log("toggle todo--->", data);
+    return data;
+  }
 
-  if (loading) return <div>Loading....</div>;
-  if (error) return <div>Error....</div>;
-
+  console.log("data-->", data);
+  if (loading) return <h1>Loading.....</h1>;
+  if (error) return <h1>Error.....</h1>;
   return (
     <div className="vh-100 code flex flex-column items-center bg-purple white pa3">
       <h1>
@@ -36,11 +55,10 @@ function App() {
       {/* todos  */}
       <div className="flex items-center justify-center flex-column">
         {data.todos.map((item) => (
-          <p key={item.id}>
-            <span className={`pointer list pa1 f3`}>
+          <p key={item.id} onDoubleClick={() => handleToggle(item)}>
+            <span className={`pointer list pa1 f3 ${item.done && "strike"}`}>
               Text: {item.text}
-              {/* X remove button  */}
-              <button className="bg-transparent bn f4">
+              <button className="bg-transparent f4 bn">
                 <span className="red f2">&times;</span>
               </button>
             </span>
