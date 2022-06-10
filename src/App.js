@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useQuery, useMutation, gql } from "@apollo/client";
 
 const GET_TODOS = gql`
-  query todos {
+  query getTodos {
     todos {
       id
       text
@@ -49,58 +49,57 @@ const DELETE_TODO = gql`
 
 function App() {
   const [myText, setMyText] = useState("");
-  const { loading, error, data } = useQuery(GET_TODOS);
+  const { data, error, loading } = useQuery(GET_TODOS);
   const [toggleTodo] = useMutation(TOGGLE_TODO);
-  const [addTodo] = useMutation(ADD_TODO, {
-    onCompleted: () => setMyText(""),
-  });
+  const [addTodo] = useMutation(ADD_TODO);
   const [deleteTodo] = useMutation(DELETE_TODO);
 
-  async function handleToggle(todo) {
-    let data = await toggleTodo({
-      variables: { id: todo.id, done: !todo.done },
-    });
-    console.log("toggle todo--->", data);
-    return data;
+  //toggle todo
+  function handleToggle(todo) {
+    toggleTodo({ variables: { id: todo.id, done: !todo.done } });
   }
 
+  //add todo
   async function handleSubmit(e) {
     e.preventDefault();
-    if (!myText.trim()) return null;
-    let data = await addTodo({
+    let newPost = await addTodo({
       variables: { text: myText },
       refetchQueries: [{ query: GET_TODOS }],
     });
-    console.log("add todo--->", data);
-    return data;
+    console.log("new Post----->", newPost);
+    return newPost;
   }
 
+  //delete todo
   async function handleDelete(todo) {
-    if (window.confirm("Are you sure you want to delete this todo?")) {
-      let data = await deleteTodo({
+    let confirmDelete = window.confirm(
+      "Are you sure you want to delete this todo?"
+    );
+    //confirm if delete?
+    if (confirmDelete) {
+      let deletedPost = await deleteTodo({
         variables: { id: todo.id },
-        //UPDATE gives us direct access to the cached data
+        //get from cache and update it
         update: (cache) => {
-          console.log("cache--->", cache);
-          // prevData - all data before mutation is performed (or deleted)
+          console.log("cache------>", cache);
           const prevData = cache.readQuery({ query: GET_TODOS });
-          //now that it's deleted we need to remove it from the cache
-          const newTodos = prevData.todos.filter((item) => {
-            console.log("item delete-------->", item);
-            return item.id !== todo.id;
+          console.log("prevData------>", prevData);
+          const newData = prevData.todos.filter((item) => item.id !== todo.id);
+          console.log("newData------>", newData);
+          // once all data has been cleared from cache and added to newData, we write it(update) to the cache so that when item gets deleted, it will query todos array and update the todos array with the new data array.
+          cache.writeQuery({
+            query: GET_TODOS,
+            data: { todos: newData },
           });
-          console.log("newTodos--->", newTodos);
-          cache.writeQuery({ query: GET_TODOS, data: { todos: newTodos } });
         },
       });
-      console.log("delete todo--->", data);
-      return data;
+      return deletedPost;
     }
   }
 
-  console.log("data-->", data);
-  if (loading) return <h1>Loading.....</h1>;
-  if (error) return <h1>Error.....</h1>;
+  if (loading) return <h1>Loading...</h1>;
+  if (error) return <h1>Error :(</h1>;
+  console.log("data---->", data);
   return (
     <div className="vh-100 code flex flex-column items-center bg-purple white pa3">
       <h1>
@@ -121,19 +120,20 @@ function App() {
         <button className="pa2 f4 bg-green">Add Todo</button>
       </form>
 
-      {/* todos  */}
       <div className="flex items-center justify-center flex-column">
         {data.todos.map((item) => (
-          <p key={item.id} onDoubleClick={() => handleToggle(item)}>
-            <span className={`pointer list pa1 f3 ${item.done && "strike"}`}>
-              Text: {item.text}
-              <button
-                className="bg-transparent f4 bn"
-                onClick={() => handleDelete(item)}
-              >
-                <span className="red f2">&times;</span>
-              </button>
-            </span>
+          <p
+            key={item.id}
+            className={`f2 pointer ${item.done ? "strike" : ""}`}
+            onDoubleClick={() => handleToggle(item)}
+          >
+            Text: {item.text}
+            <button
+              className="bg-transparent f4 bn"
+              onClick={() => handleDelete(item)} //delete todo
+            >
+              <span className="red f3">X</span>
+            </button>
           </p>
         ))}
       </div>
