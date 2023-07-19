@@ -53,3 +53,8 @@
 #node modules 
 node_modules
 
+# hide .vscode folder
+.vscode
+ 
+# hide .env file
+.env
