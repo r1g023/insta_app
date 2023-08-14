@@ -9,8 +9,10 @@ function App() {
       {/* third commit */}
       {/* fourth commit */}
       {/* fifth commit */}
+      {/* sixth commit within new_login branch */}
+      {/* seventh commit within new_login branch */}
 
-  {/* comment within GitHub, rebase remotely test */}
+      {/* comment within GitHub, rebase remotely test */}
     </div>
   );
 }
