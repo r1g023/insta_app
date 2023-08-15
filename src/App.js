@@ -11,6 +11,8 @@ function App() {
       {/* fifth commit */}
       {/* sixth commit within new_login branch */}
       {/* seventh commit within new_login branch */}
+      {/* eight commit within third-squash branch */}
+      {/* ninth commit within third-squash branch */}
 
       {/* comment within GitHub, rebase remotely test */}
     </div>
