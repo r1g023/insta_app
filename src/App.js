@@ -1,18 +1,16 @@
 import React from "react";
-
+// use the useState hook to create a state variable
 function App() {
+  const [count, setCount] = React.useState(0);
+
+  // first squash test
+  // second squash test
+  // third squash test
+
   return (
     <div>
-      <h1>React Hooks</h1>
-      {/* first commit */}
-      {/* second commit */}
-      {/* third commit */}
-      {/* fourth commit */}
-      {/* fifth commit */}
-      {/* sixth commit within new_login branch */}
-      {/* seventh commit within new_login branch */}
-
-      {/* comment within GitHub, rebase remotely test */}
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>Click me</button>
     </div>
   );
 }
