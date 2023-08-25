@@ -6,6 +6,8 @@ function App() {
   // first squash test
   // second squash test
   // third squash test
+  // fourth squash test
+  // fifth squash test
 
   return (
     <div>
