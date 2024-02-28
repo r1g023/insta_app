@@ -1,18 +1,52 @@
+import ReactDom from "react-dom";
 import React from "react";
-import ReactDOM from "react-dom";
-import App from "./App";
-import "./index.css";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
-const client = new ApolloClient({
-  uri: "https://react-todo-graphql23.herokuapp.com/v1/graphql",
-  cache: new InMemoryCache(),
-});
+function App() {
+  const [dev, setDev] = React.useState({
+    language: "python",
+    yearsExperience: 3,
+    developer: true,
+  });
 
-const root = document.getElementById("root");
-ReactDOM.render(
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>,
-  root
-);
+  return (
+    <div>
+      <button
+        onClick={() => {
+          setDev({
+            ...dev,
+            language: "javascript",
+          });
+        }}>
+        Change
+      </button>
+      <input
+        type="number"
+        name="yearsExperience"
+        onChange={(e) => {
+          console.log(e.target.value);
+
+          setDev({
+            ...dev,
+            [e.target.name]: e.target.value,
+          });
+        }}
+      />
+      <h1>Language: {dev.language}</h1>
+      <h1>Years of Experience: {dev.yearsExperience}</h1>
+
+      <button
+        onClick={() => {
+          setDev({
+            ...dev,
+            developer: !dev.developer,
+          });
+        }}>
+        Is Dev?
+      </button>
+      <h1>Developer: {dev.developer ? "Yes" : "No"}</h1>
+    </div>
+  );
+}
+
+const rootElement = document.getElementById("root");
+ReactDom.render(<App />, rootElement);
