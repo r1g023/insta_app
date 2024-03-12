@@ -3,25 +3,25 @@ import React from "react";
 function Login({ setUser }) {
   const [username, setUsername] = React.useState("");
 
-  function handleLogin(e) {
+  function handleSubmit(e) {
+    console.log("inside handleSubmit");
     e.preventDefault();
-    console.log("Logged in");
     setUser(username);
   }
 
   return (
-    <div>
-      <h1>Please Login</h1>
-      <form onSubmit={handleLogin}>
+    <div style={{ padding: "20px" }}>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="username">Username:</label>
         <input
           type="text"
-          placeholder="enter name"
-          onChange={(e) => setUsername(e.target.value)}
+          id="username"
+          name="username"
           value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
-        <button>Login user</button>
+        <button>Submit</button>
       </form>
-      <p>Username: {username}</p>
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import React from "react";
-import Logout from "./Logout";
 
 function Header({ user, setUser }) {
+  console.log("outside Header");
   return (
-    <div style={{ border: "2px solid red" }}>
-      <p>Welcome, {user}!</p>
-      <Logout setUser={setUser} />
+    <div>
+      <h1>Welcome {user}</h1>
+      <button onClick={() => setUser("")}>Logout</button>
     </div>
   );
 }
