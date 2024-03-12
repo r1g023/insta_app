@@ -5,6 +5,7 @@ import Header from "./components/Header";
 import dreamPost from "./postListItems";
 import PostList from "./components/PostList";
 import CreatePost from "./components/CreatePost";
+import Github from "./components/Github";
 
 function App() {
   console.log("outside App");
@@ -17,11 +18,11 @@ function App() {
 
   return (
     <div style={{ border: "2px solid red", padding: "100px" }}>
-      <Login setUser={setUser} />
-      <Header user={user} setUser={setUser} />
+      <Github />
+      {/* <Header user={user} setUser={setUser} />
       <CreatePost user={user} posts={posts} setPosts={setPosts} />
       <PostList posts={posts} />
-      <h1>User {user}</h1>
+      <h1>User {user}</h1> */}
     </div>
   );
 }
