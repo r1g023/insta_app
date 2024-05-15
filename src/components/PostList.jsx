@@ -5,17 +5,16 @@ function PostList({ posts }) {
   return (
     <div
       style={{
-        border: "2px solid green",
-        padding: "20px",
+        border: "2px solid orange",
+        padding: "10px",
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "space-around",
         flexWrap: "wrap",
       }}>
-      {posts.map((item) => {
-        return <PostCard post={item} key={item.id} />;
+      {posts.map((post) => {
+        return <PostCard key={post.id} post={post} />;
       })}
     </div>
   );
 }
-
 export default PostList;

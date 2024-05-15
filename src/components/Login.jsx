@@ -1,26 +1,22 @@
 import React from "react";
 
-function Login({ setUser }) {
+function Login({ user, setUser }) {
   const [username, setUsername] = React.useState("");
 
-  function handleSubmit(e) {
-    console.log("inside handleSubmit");
-    e.preventDefault();
-    setUser(username);
-  }
-
   return (
-    <div style={{ padding: "20px" }}>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username">Username:</label>
+    <div style={{ border: "2px solid red", padding: "100px" }}>
+      Login
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          setUser(username);
+        }}>
         <input
           type="text"
-          id="username"
-          name="username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        <button>Submit</button>
+        <button>Add user</button>
       </form>
     </div>
   );

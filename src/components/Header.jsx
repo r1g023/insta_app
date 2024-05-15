@@ -1,11 +1,15 @@
 import React from "react";
 
-function Header({ user, setUser }) {
-  console.log("outside Header");
+function Header({ setUser, postList }) {
   return (
-    <div>
-      <h1>Welcome {user}</h1>
-      <button onClick={() => setUser("")}>Logout</button>
+    <div style={{ border: "4px solid green", padding: "100px" }}>
+      Header
+      <button
+        onClick={() => {
+          setUser(null);
+        }}>
+        Signout
+      </button>
     </div>
   );
 }
